@@ -1,0 +1,17 @@
+*secrets*
+
+.venv/*
+.vscode/*
+node_modules/*
+
+*.pyc
+*.sqlite3
+*.log
+
+VOLUMES/*
+
+*experiments*
+*examples*
+tmp/*
+
+*docker-compose.override.yml*
