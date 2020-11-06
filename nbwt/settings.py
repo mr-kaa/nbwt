@@ -60,13 +60,15 @@ INSTALLED_APPS = [
 
     'debug_toolbar',
 
+    'django_filters',
+
     'rest_framework',
+
     # 'rest_framework.authtoken',
-    # 'djoser',
     # 'rest_framework_jwt',
+    # 'djoser',
+
     # 'rest_framework_json_api',
-    # 'debug_toolbar',
-    # 'django_filters',
 
     'filesystem.apps.FilesystemConfig',
     'tags.apps.TagsConfig'
