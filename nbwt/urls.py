@@ -22,14 +22,27 @@ from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls'))
+    path('api-auth/',
+         include('rest_framework.urls',
+                 namespace='rest_framework'
+                 )
+         ),
+    path('api/',
+         include('filesystem.urls')
+         ),
+    path('api/',
+         include('tags.urls')
+         ),
 ]
+
+urlpatterns += static(settings.MEDIA_URL,
+                      document_root=settings.MEDIA_ROOT
+                      )
 
 if settings.DEBUG:
     import debug_toolbar
-
     urlpatterns = [
-        path('__debug__/', include(debug_toolbar.urls)),
+        path('__debug__/',
+             include(debug_toolbar.urls)
+             ),
     ] + urlpatterns
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
