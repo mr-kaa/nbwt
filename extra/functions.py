@@ -30,7 +30,7 @@ def make_unique_slug(model: Model, slug: str, counter=0) -> str:
     else:
         new_slug = slug
 
-    if model.objects.fitler(slug=new_slug).count() \
+    if model.objects.filter(slug=new_slug).count() \
             or new_slug in forbidden_slugs:
         counter += 1
         slug = make_unique_slug(model, slug, counter)
