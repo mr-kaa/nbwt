@@ -1,9 +1,14 @@
+from os import path
 import uuid
+import os
 
 from django.db import models
 from django.contrib.auth.models import User
 
 from tags.models import Tag
+
+from slugify import slugify
+
 from extra.functions import \
     get_md5, \
     make_unique_slug, \
@@ -18,6 +23,10 @@ class Hash(models.Model):
         verbose_name='File hash (md5)',
         unique=True
     )
+
+
+def __str__(self):
+    return self.id
 
 
 class File(models.Model):
@@ -86,6 +95,7 @@ class File(models.Model):
     identical_file = models.ForeignKey(
         'self',
         on_delete=models.PROTECT,
+        null=True,
         blank=True,
         default=None,
         related_name='clones',
@@ -97,6 +107,12 @@ class File(models.Model):
         blank=True,
         default=None
     )
+
+    class Meta:
+        ordering = ['-add_time']
+
+    def __str__(self) -> str:
+        return self.name
 
     @property
     def __path(self) -> str:
@@ -124,12 +140,17 @@ class File(models.Model):
             if not self.name:
                 self.name = uuid.uuid1().__str__()
                 self.slug = self.name
-        else:
-            self.get_tags_from_descriptions()
+        # else:
+        #     self.get_tags_from_descriptions()
 
         super().save(*args, **kwargs)
+
         if no_id_flag:
             if self.file:
-                pass
+                name = os.path.basename(self.file.name)
+                self.name, self.file_type = os.path.splitext(name)
+                self.slug = make_unique_slug(File, slugify(self.name)[:60])
+            self.save()
 
+        else:
             pass
