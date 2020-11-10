@@ -33,7 +33,7 @@ services:
       DB_USERNAME: postgres
       DB_PASSWORD: docker
       DB_NAME: nbwt
-      BASE_URL: localhost:8000
+      # BASE_URL: localhost:8000
 
     depends_on:
       - nbwt_db
@@ -54,6 +54,8 @@ services:
     restart: always
     depends_on:
       - nbwt_web
+    environment:
+      NBWT_HOST: localhost
     ports:
       - "8000:8000"
 
